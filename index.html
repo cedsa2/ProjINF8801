@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>INF8808 - Team3</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+</head>
+<body>
+
+    <div class="sidenav" style="height: 1400px; width: 40px;">
+        <div class="menu-color" style="background-color: #41AAE6; height : 200px;" name="section1"></div>
+        <div class="menu-color" style="background-color: #000000; height : 10px;"></div>
+        <div class="menu-color" style="background-color: #8CC83C; height : 200px;" name="section2"></div>
+        <div class="menu-color" style="background-color: #000000; height : 10px;"></div>
+        <div class="menu-color" style="background-color: #FA961E; height : 200px;" name="section3"></div>
+        <div class="menu-color" style="background-color: #000000; height : 10px;"></div>
+        <div class="menu-color" style="background-color: #B91E32; height : 200px;" name="section4"></div>
+        <div class="menu-color" style="background-color: #000000; height : 10px;"></div>
+        <div class="menu-color" style="background-color: #f0f0f0; height : 200px;" name="section5"></div>
+    </div>
+
+    <div class="background-image">
+        <img src="assets/img/poly1.jpg" alt="Plomtl" width="100%" height="auto">
+    </div>
+    
+    <div class="section" id="section1">
+
+        <div class="container" style="padding-top: 100px;">
+            <div class="row container">
+                <div style="padding-right: 400px; padding-left: 430px; font-family: Pathway Gothic One,sans-serif; font-size: 300%; text-align: left;">
+                    <p>ABOUT</p>
+                </div>
+                <div class="col-lg-6" style="padding-right: 20px; padding-left: 0px; font-family: Pathway Gothic One,sans-serif; font-size: 115%; text-align: justify;">
+                    <p>The Polytechnique Montréal is an engineering school affiliated with the Université de Montréal in Montréal, Québec, Canada. Polytechnique is a key player in the engineering and innovation sector and a partner of choice for a number of innovative companies, both in Quebec and elsewhere in Canada and around the world. True to its mission since 1873, it has trained more than 50,000 engineers, specialists and researchers. 
+                    </br>Hence, it posseses a large and rich dataset of its students, analysing which could be of great use for the ones seeking answers to questions about this university; current and future students, alumni, professors, and bussiness people.
+                    </br>During the last ten years, 195,634 students enrolled
+                    </p>
+                </div>
+               
+                <div class="col-lg-6" style="padding-left: 20px; font-family: Pathway Gothic One,sans-serif; font-size: 115%; text-align: justify;">
+                    <p>
+                        in, and 14,102 graduated from Polytechnique University. Among all of the enrolled students during this time, 26% were women who also formed 24% of the alumni. Also, international students; who have always been welcomed to Polytechnique, comprise 42.5% of the total number of students. Moreover, 71.7%, 17.6% and 10.7% of the students are enrolled in the first, second, and third cycle programs, respectively. 
+                    </br>In what follows, we have provided you with visualizations that pave the way to customize and extract information from. By changing the selection mode, you can switch between inscription and graduation data, and by switching beteen provided filters, you would be able to easily get and compare desired information.   
+                    </p>
+                </div>
+            </div>
+
+            <!--<div>
+                <ul>
+                    <li>1. Point 1</li>
+                    <li>2. Point 2</li>
+                    <li>3. Point 3</li>
+                </ul>
+            </div>-->
+
+            <div class="container" style="text-align: center;">
+                <button type="button" class="btn btn-info" style="background-color:#8CC83C ;"> <a href="#section2" style="color: white;">Go to Bar Chart ^_^</a> </button>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="section" id="section2", style="font-family: Pathway Gothic One,sans-serif ;">
+        <div class="container">
+            <div id="bar-zone">
+                <div class="row zone">
+                    <div class="col-sm-4">
+                        <div class="filter-zone">
+                            <div style="border-bottom:#808080 2px solid;width: 130px;">
+                                <strong>Selection Mode</strong>
+                            </div>
+                            <div id="mode-zone">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4", style="font-family: Pathway Gothic One,sans-serif ;">
+                        <div class="filter-zone">
+                            <div style="border-bottom:#808080 2px solid;width: 170px;">
+                                <strong>Displayed semesters</strong>
+                            </div>
+                            <div id="semester-zone">
+                                <div class="checkbox Fall">
+                                    <input type="checkbox" id="semester-zone0" name="semester-zone" value="Fall" class="bar-filter" checked>
+                                    <label for="semester-zone0"><span>Fall</span></label>
+                                </div>
+                            
+                                <div class="checkbox Winter">
+                                    <input type="checkbox" id="semester-zone2" name="semester-zone" value="Winter" class="bar-filter" checked>
+                                    <label for="semester-zone2"><span>Winter</span></label>
+                                </div>
+                            
+                                <div class="checkbox Summer">
+                                    <input type="checkbox" id="semester-zone1" name="semester-zone" value="Summer" class="bar-filter" checked>
+                                    <label for="semester-zone1"><span>Summer</span></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4", style="font-family: Pathway Gothic One,sans-serif ;">
+                        <div class="filter-zone">
+                            <div style="border-bottom:#808080 2px solid;width: 135px;">
+                                <strong>Splitting option</strong>
+                            </div>
+                            <div id="splitting-zone">
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    
+                </div>
+    
+                <div class="row zone", style="font-family: Pathway Gothic One,sans-serif ;">
+                    <div class="col-sm-6">
+                        <div class="filter-zone">
+                            <div>
+                                <strong>Sort by degree</strong>
+                            </div>
+                            <div>
+                                <select id="degree-select"></select>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="filter-zone">
+                            <div>
+                                <strong>Sort by program</strong>
+                            </div>
+                            <div>
+                                <select id="program-select"></select>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="zone">
+
+                    <div class="" , style="padding-top: 10px;">
+                        <svg id="bar-svg"></svg>
+                    </div>
+
+                    <div class="">
+                        <svg id="bar-svg-split1"></svg>
+                    </div>
+
+                    <div class="">
+                        <svg id="bar-svg-split2"></svg>
+
+                        
+                    </div>
+
+                    <div class="">
+                        <svg id="bar-svg-split3"></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="section3", style="font-family: Pathway Gothic One,sans-serif ;">
+        <div class=" row container" style="padding: 80px; padding-top: 200px;"> 
+            <div class="col-lg-6" style="padding-right: 20px;  padding-left: 0px; font-family: Pathway Gothic One,sans-serif; font-size: 115%; text-align: justify;">
+                <p>
+                    Civil Engineering, Mechanical Engineering, and Industrial Engineering have been the most popular programs for students among others, having 27,739 (14%), 39,967 (20.4%), and 18,623 (9.5%) students. Also, Mechanical Engineering (3,911 - 27.7%), Civil Engineering (2,238 - 15.8%), and Industrial Engineering (1,541 - 10.9%) share the highest graduated numbers.  Furthermore, students have mostly tended to enroll in bachelor level (116351 - 59%), in addition to certificate (16,454 - 8%) and doctorate (704,182 - 3.6%) degrees.  
+                </p>
+            </div>
+           
+            <div class="col-lg-6" style="padding-left: 20px; font-family: Pathway Gothic One,sans-serif; font-size: 115%; text-align: justify;">
+                <p>
+                    In the following bubble charts, you can investigate more on inscription and graduation data, according to the programs offered by different departments and various types of degree, in a specific semester of the academic year of your choice.
+                
+                </p>
+            </div>
+
+            <div class="container" style="text-align: center;">
+                <button type="button" class="btn btn-info" style="background-color:#B91E32 ;"> <a href="#section4" style="color: white;">Go to Bubble Charts ^_^</a> </button>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="section" id="section4", style="font-family: Pathway Gothic One,sans-serif ;">
+        <div class="container">
+            
+            <div class="zone row" style="margin: 20px;">
+                <div class="col-sm-4">
+                    <div class="filter-zone">
+                        <div style="border-bottom:#808080 2px solid;width: 125px;">
+                            <strong>Selection Mode</strong>
+                        </div>
+                        <div id="mode-bubble-zone">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="filter-zone">
+                        <div style="border-bottom:#808080 2px solid;width: 145px;">
+                            <strong>Select a semester</strong>
+                        </div>
+                        <div id="semester-buuble-zone">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="filter-zone">
+                        <div>
+                            <strong>Select a year</strong>
+                        </div>
+                        <div>
+                            <select id="year-select"></select>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin: 20px;">
+                <div class="col-lg-6">
+                   
+                   
+                    <div>
+                        <svg id="bubble-svg-prog"></svg>
+                    </div>
+                    <div class="sub_title" style="width: 100%; text-align: center; ">
+                        <div style="border-radius: 20px;border: black 2px solid; width: 140px; margin-left: 160px;margin-top: 0px;background-color:silver;"><strong>By Program</strong></div>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-4">
+                    <div>
+                        <svg id="bubble-svg"></svg>
+                    </div>
+
+                    <div class="sub_title" style="width: 100%; text-align: center; ">
+                        <div style="border-radius: 20px;border: black 2px solid; width: 110px; margin-left: 300px;background-color:silver;"><strong>By Grade</strong></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="section5", style="font-family: Pathway Gothic One,sans-serif ;">
+        <div class="container">
+            <p>
+                First page's photo was used from 
+                <a href="http://loutardeliberee.com/lex-vice-president-de-total-a-tete-de-polytechnique-montreal/">L’Outarde Libérée</a>.
+            </p>
+            <p>
+                Data gathered by <a href="https://www.polymtl.ca/">Polytechnique Montreal</a>, and visualized by Cedric, Mamoudou, Mohammad Amin, Shaghayegh, Tristan, and Yongbing, as the final project of the course INF8808E-Data Visualization, Dr. Thomas Hurtut, Summer 2020. 
+            </p>
+
+        </div>
+    </div>
+    <script type="text/javascript" src="assets/libs/d3.js"></script>
+    <script type="text/javascript" src="assets/libs/d3-tip.js"></script>
+    <script type="text/javascript" src="assets/scripts/bar/preproc.js"></script>
+    <script type="text/javascript" src="assets/scripts/bubble/preproc.js"></script>
+    <script type="text/javascript" src="assets/scripts/bubbleProg/preproc.js"></script>
+    <script type="text/javascript" src="assets/scripts/bar/bar.js"></script>
+    <script type="text/javascript" src="assets/scripts/bubble/bubble.js"></script>
+    <script type="text/javascript" src="assets/scripts/bubbleProg/bubble.js"></script>
+    <script type="text/javascript" src="assets/scripts/bubbleProg/tooltip.js"></script>
+    <script type="text/javascript" src="assets/scripts/helper.js"></script>
+    <script type="text/javascript" src="assets/scripts/filter.js"></script>
+    <script type="text/javascript" src="assets/scripts/main.js"></script>
+    <script src="https://d3js.org/d3-array.v2.min.js"></script>
+    <script src="https://d3js.org/d3-hierarchy.v1.min.js"></script>
+</body>
+</html>
