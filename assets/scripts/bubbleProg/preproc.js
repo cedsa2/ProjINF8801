@@ -64,3 +64,15 @@ function createSourceHelper(data, bubbleSelectedFilter) {
     return res;
 }
 
+
+function domainColorBubbleProg(color, bubbleSources) {
+    color.domain(bubbleSources.map(d => d.Programme));
+}
+
+function pack(data, width, height) { 
+        return d3.pack()
+            .size([width - 2, height - 2])
+            .padding(3)
+            (d3.hierarchy({children: data})
+            .sum(d => d.total))
+}

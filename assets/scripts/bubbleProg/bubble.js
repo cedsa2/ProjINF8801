@@ -1,25 +1,12 @@
 "use strict";
 
-function createBubbleAxesProg(bubbleChartSvg, xBubble, yBubble, bubbleChartwidth, bubbleChartheight){
-}
 
-function createBubbleChartProg(bubbleChartSvg, bubbleSources, bubblePro_tip, fontScale){
 
- 
-    var color = d3.scaleOrdinal(d3.schemeCategory10)
-    color.domain(bubbleSources.map(d => d.Programme));
+function createBubbleChartProg(bubbleChartSvg, bubblePro_tip, fontScale, color, width, height, root){
 
-    var pack = data => d3.pack()
-                            .size([500 - 2, 400 - 2])
-                            .padding(3)
-                            (d3.hierarchy({children: data})
-                            .sum(d => d.total))
-  
-  
-    const root = pack(bubbleSources);
 
     bubbleChartSvg
-      .attr("viewBox", [0, 0, 500, 400])
+      .attr("viewBox", [0, 0, width, height])
       .attr("font-size", 10)
       .attr("font-family", "sans-serif")
       .attr("text-anchor", "middle");
@@ -57,22 +44,8 @@ function createBubbleChartProg(bubbleChartSvg, bubbleSources, bubblePro_tip, fon
 }
 
 
-function updateBubbleChartProg(diploma, inscription, bubbleSelectedFilter, bubbleChartSvg, bubblePro_tip, fontScale){
-  var update_bubbleSource = createBubbleSourcesProg(diploma, inscription, bubbleSelectedFilter);
+function updateBubbleChartProg(bubbleChartSvg, bubblePro_tip, fontScale, color, root){
 
-  var color = d3.scaleOrdinal(d3.schemeCategory10)
-  color.domain(update_bubbleSource.map(d => d.Programme));
-
-  
-
-  var pack = data => d3.pack()
-                        .size([500 - 2, 400 - 2])
-                        .padding(3)
-                        (d3.hierarchy({children: data})
-                        .sum(d => d.total))
-  
-  
-  var root = pack(update_bubbleSource);
 
 
   bubbleChartSvg.selectAll("g").remove();

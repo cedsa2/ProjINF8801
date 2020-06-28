@@ -394,16 +394,16 @@ function updateSourceFromSemester(barSelectedFilter, selected_mode, chosen_semes
     return tmp;
 }
 
-function barDomainX(xBar, barSources, diploma, inscription){
+function barDomainX(xBar, barSources){
     xBar.domain(barSources.map(d => d.semester))
 }
 
-function barDomainY(yBar, barSources, diploma, inscription){
+function barDomainY(yBar, barSources){
     var student_semester = barSources.map(d => d.number_of_students)
     var max = d3.max(student_semester)
     yBar.domain([0, max])
 }
-function barDomainY_Split1(yBar,filter, barSources, diploma, inscription){
+function barDomainY_Split1(yBar,filter, barSources){
     var student_semester = barSources.map(function(d){
         if(filter.splitting == "Gender"){return Math.max(d.male,d.female)}
         else if(filter.splitting == "Fulltime / Part-time"){return Math.max(d.full_time,d.part_time)}

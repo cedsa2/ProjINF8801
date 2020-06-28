@@ -132,7 +132,7 @@ function createBarChart(barChartSvg, barSources, xBar, yBar, colors, tip, barCha
 
 
 
-function updateBarChart(diploma, inscription, barSelectedFilter, barChartSvg, barSources, xBar, yBar, colors, tip, barChartHeight){
+function updateBarChart(barChartSvg, barSources, xBar, yBar, colors, tip, barChartHeight){
 
         barChartSvg.selectAll("rect").remove()
         var rects = barChartSvg
@@ -349,7 +349,6 @@ function createSplit_1_BarChart(barChartSvg, barSources, splitFilter, xBar, yBar
     .enter()
     .append("rect")
     .attr("class", "bar")
-    // .attr("transform", "translate(48 ,0)")
     .attr("fill", function(d){
         if(d.semester.endsWith("1")){return colors[0]}
         else if(d.semester.endsWith("2")){return colors[1]}

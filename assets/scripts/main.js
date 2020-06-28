@@ -175,15 +175,15 @@
             var bubbleSources = createBubbleSources(diploma, inscription, bubbleSelectedFilter);
 
             //use which data you need...
-            barDomainX(xBar, barSources, diploma, inscription);
-            barDomainY(yBar, barSources, diploma, inscription);
+            barDomainX(xBar, barSources);
+            barDomainY(yBar, barSources);
 
-            barDomainX(xBarSplit1, barSources, diploma, inscription);
-            barDomainY_Split1(yBarSplit1, barSelectedFilter, barSources, diploma, inscription);
+            barDomainX(xBarSplit1, barSources);
+            barDomainY_Split1(yBarSplit1, barSelectedFilter, barSources);
 
-            barDomainX(xBarSplit2, barSources, diploma, inscription);
+            barDomainX(xBarSplit2, barSources);
 
-            barDomainX(xBarSplit3, barSources, diploma, inscription);
+            barDomainX(xBarSplit3, barSources);
 
             bubbleDomainX(xBubble, bubbleSources, diploma, inscription);
             bubbleDomainY(yBubble, bubbleSources, diploma, inscription);
@@ -206,12 +206,16 @@
             createBubbleChart(bubbleChartSvg, bubbleSources, bubbleSelectedFilter, diploma, inscription, xBubble, yBubble, bubble_tip)
 
             /***** Creation of the bubble chart for program *****/
+
             var bubbleSelectedFilter = getBubbleSelectedFilterData();
-                var bubbleSourcesProg = createBubbleSourcesProg(diploma, inscription, bubbleSelectedFilter);
-                var fontScale = d3.scaleLinear().domain([0, 80]).range([0, 20]);
-                createBubbleAxesProg(bubbleChartSvgProg, xBubbleProg, yBubbleProg, bubbleChartWidth, bubbleChartHeight);
-                createBubbleChartProg(bubbleChartSvgProg, bubbleSourcesProg, bubblePro_tip, fontScale);
-                updateBubbleChartProg(diploma, inscription, bubbleSelectedFilter, bubbleChartSvgProg, bubblePro_tip, fontScale);
+            var bubbleSourcesProg = createBubbleSourcesProg(diploma, inscription, bubbleSelectedFilter);
+            var fontScale = d3.scaleLinear().domain([0, 80]).range([0, 20]);
+            var bubbleProgColor = d3.scaleOrdinal(d3.schemeCategory10);
+            var bubblePackedSourcesProg = pack(bubbleSourcesProg, bubbleChartWidth, bubbleChartHeight);
+            
+            domainColorBubbleProg(bubbleProgColor, bubbleSourcesProg);
+            createBubbleChartProg(bubbleChartSvgProg, bubblePro_tip, fontScale,bubbleProgColor, bubbleChartWidth, bubbleChartHeight, bubblePackedSourcesProg);
+
             bubblePro_tip.html(function (d) {
                 return getToolTipText.call(this, d, Grade)
             });
@@ -220,7 +224,6 @@
             /***** When a bar chart filter changed *****/
             d3.selectAll(".bar-filter").on("change", function(d){
                 barSelectedFilter = getBarSelectedFilterData();
-                var filterName = d3.select(this).attr("name");
                 barSelectedFilter = getBarSelectedFilterData();
 
                 if(barSelectedFilter.mode == "Diploma") {
@@ -247,7 +250,7 @@
                         d3.select("#bar-svg-split1").transition().duration(300).style("height", barChartHeightSplit1 + barChartMarginSplit1.top + barChartMarginSplit2.bottom)
                         d3.select("#bar-svg-split2").transition().duration(300).style("height", barChartHeightSplit2 + barChartMarginSplit2.top + barChartMarginSplit2.bottom)
 
-                        barDomainY_Split1(yBarSplit1,barSelectedFilter, barSourcesPlus, diploma, inscription);
+                        barDomainY_Split1(yBarSplit1,barSelectedFilter, barSourcesPlus);
                         console.log(yBarSplit1.domain());
                         createBarAxes(barChartSvgSplit1, xAxisSplit1, yAxisSplit1, barChartWidthSplit1, barChartHeightSplit1, barSelectedFilter, 1, yBarSplit1);
                         tip1.html(function(d) {
@@ -273,7 +276,7 @@
                         d3.select("#bar-svg-split2").transition().duration(300).style("height", barChartHeightSplit2 + barChartMarginSplit2.top + barChartMarginSplit2.bottom)
                         d3.select("#bar-svg-split3").transition().duration(300).style("height", barChartHeightSplit3 + barChartMarginSplit3.top + barChartMarginSplit3.bottom)
 
-                        barDomainY_Split1(yBarSplit1,barSelectedFilter, barSourcesPlus, diploma, inscription);
+                        barDomainY_Split1(yBarSplit1,barSelectedFilter, barSourcesPlus);
                         console.log("domain:");
                         console.log(yBarSplit1.domain());
                         createBarAxes(barChartSvgSplit1, xAxisSplit1, yAxisSplit1, barChartWidthSplit1, barChartHeightSplit1, barSelectedFilter, 1, yBarSplit1);
@@ -282,7 +285,7 @@
                         barChartSvgSplit1.call(tip1);
                         createSplit_1_BarChart(barChartSvgSplit1, barSourcesPlus, barSelectedFilter , xBarSplit1, yBarSplit1, barColors, tip1, barChartHeightSplit1);
         
-                        barDomainY_Split1(yBarSplit2,barSelectedFilter, barSourcesPlus, diploma, inscription);
+                        barDomainY_Split1(yBarSplit2,barSelectedFilter, barSourcesPlus);
                         createBarAxes(barChartSvgSplit2, xAxisSplit2, yAxisSplit2, barChartWidthSplit2, barChartHeightSplit2, barSelectedFilter, 2, yBarSplit2);
                         tip2.html(function(d) {
                             return barchartSplit_2_Tip.call(this, d, barSelectedFilter);});
@@ -290,7 +293,7 @@
                         createSplit_2_BarChart(barChartSvgSplit2, barSourcesPlus, barSelectedFilter, xBarSplit2, yBarSplit2, barColors, tip2, barChartHeightSplit2);
 
 
-                        barDomainY_Split1(yBarSplit3,barSelectedFilter, barSourcesPlus, diploma, inscription);
+                        barDomainY_Split1(yBarSplit3,barSelectedFilter, barSourcesPlus);
                         createBarAxes(barChartSvgSplit3, xAxisSplit3, yAxisSplit3, barChartWidthSplit3, barChartHeightSplit3, barSelectedFilter, 3, yBarSplit3);
                         tip3.html(function(d) {
                             return barchartSplit_3_Tip.call(this, d, barSelectedFilter);});
@@ -306,12 +309,12 @@
                     
                     d3.select("#bar-svg").transition().duration(600).style("height", barChartHeight + barChartMargin.top + barChartMargin.bottom)
                     
-                    barDomainY(yBar,barSourcesPlus, diploma, inscription)
+                    barDomainY(yBar,barSourcesPlus)
                     createBarAxes(barChartSvg, xAxis, yAxis, barChartWidth, barChartHeight,barSelectedFilter,0, yBar);
                     tip.html(function(d) {
                         return barchartTip.call(this, d);});
                     barChartSvg.call(tip);
-                    updateBarChart(diploma, inscription, barSelectedFilter, barChartSvg, barSourcesPlus, xBar, yBar, barColors, tip, barChartHeight);
+                    updateBarChart(barChartSvg, barSourcesPlus, xBar, yBar, barColors, tip, barChartHeight);
                 }
 
                 
@@ -322,15 +325,13 @@
             /***** When a bubble chart filter changed *****/
             d3.selectAll(".bubble-filter").on("change", function (d) {
 
+                /**bubblePog update */
                 var bubbleSelectedFilter = getBubbleSelectedFilterData();
-                var bubbleSourcesProg = createBubbleSourcesProg(diploma, inscription, bubbleSelectedFilter);
-                var fontScale = d3.scaleLinear().domain([0, 80]).range([0, 20]);
-                createBubbleAxesProg(bubbleChartSvgProg, xBubbleProg, yBubbleProg, bubbleChartWidth, bubbleChartHeight);
-                createBubbleChartProg(bubbleChartSvgProg, bubbleSourcesProg, bubblePro_tip, fontScale);
-                updateBubbleChartProg(diploma, inscription, bubbleSelectedFilter, bubbleChartSvgProg, bubblePro_tip, fontScale);
-
-
-
+                bubbleSourcesProg = createBubbleSourcesProg(diploma, inscription, bubbleSelectedFilter);
+                bubblePackedSourcesProg = pack(bubbleSourcesProg, bubbleChartWidth, bubbleChartHeight);
+                updateBubbleChartProg(bubbleChartSvgProg, bubblePro_tip, fontScale, bubbleProgColor, bubblePackedSourcesProg);
+                
+                /** buuble for degrade update */
                 bubbleSources = createBubbleSources(diploma, inscription, bubbleSelectedFilter);
                 var bubbleSelectedFilter = getBubbleSelectedFilterData();
                 bubble_tip.html(function (d) {
@@ -339,11 +340,6 @@
                 bubbleChartSvg.call(bubble_tip);
                 updateBubbleChart(diploma, inscription, bubbleSelectedFilter, bubbleChartSvg, bubbleSources, xBubble, yBubble, bubble_tip);
 
-
-                bubblePro_tip.html(function (d) {
-                    return getToolTipText.call(this, d, Grade)
-                });
-                bubbleChartSvgProg.call(bubblePro_tip);
             });
         });
 
