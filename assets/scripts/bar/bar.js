@@ -1,8 +1,10 @@
 "use strict";
 
 function createBarAxes(barChartSvg, xAxis, yAxis, barChartwidth, barChartheight, filter, num, yBar){
+    // to avoid over-writing
     barChartSvg.selectAll("text#legend").remove()
     barChartSvg.selectAll("#xlegends").remove()
+    
     // X axis
     barChartSvg.append("g")
     .classed("x-axis", true)
@@ -42,8 +44,8 @@ function createBarAxes(barChartSvg, xAxis, yAxis, barChartwidth, barChartheight,
     .attr("id", "legend")
     .attr("transform", "translate(0, -" + 10 + ")")
     .attr("text-anchor","middle")
-    .text(function(d){
-        var label = "";
+    .text(function(d){  //labels of Y axis according to the chosen filter
+
         if(filter.splitting == "Gender"){
             if(num == 1){return "#Male students "}
             if(num == 2){return "#Female students "}
@@ -75,12 +77,10 @@ function createBarAxes(barChartSvg, xAxis, yAxis, barChartwidth, barChartheight,
     if (barChartSvg.select(".y-axis").empty()){
         barChartSvg.append("g")
         .attr("class", "y-axis")
-        // .attr("transform", "translate(50 ,48)")
         .call(yAxis, yBar)
         .selectAll("text")
         .style("text-anchor", "end")
     } else{
-
         barChartSvg.select(".y-axis").call(yAxis, yBar);
     }
 
@@ -93,16 +93,14 @@ function createBarAxes(barChartSvg, xAxis, yAxis, barChartwidth, barChartheight,
 
 }
 
-
-
-
+// function for creating the barcharts
 function createBarChart(barChartSvg, barSources, xBar, yBar, colors, tip, barChartHeight){
     barChartSvg.selectAll('rect')
     .data(barSources)
     .enter()
     .append("rect")
     .attr("class", "bar")
-    .attr("fill", function(d){
+    .attr("fill", function(d){  //color of each bar depends on what semester it represents
         if(d.semester.endsWith("1")){return colors[0]}
         if(d.semester.endsWith("2")){return colors[1]}
         if(d.semester.endsWith("3")){return colors[2]}
@@ -130,56 +128,184 @@ function createBarChart(barChartSvg, barSources, xBar, yBar, colors, tip, barCha
 }
 
 
-
-
 function updateBarChart(barChartSvg, barSources, xBar, yBar, colors, tip, barChartHeight){
 
-        barChartSvg.selectAll("rect").remove()
-        var rects = barChartSvg
-            .selectAll("rect")
-            .data(barSources)
-            .enter()
-            .append("rect")
-            .attr("class", "bar")
-            .attr("x", function(d){return xBar(d.semester)})
-            .attr("y", barChartHeight)
-            .attr("fill", function(d){
-                if(d.semester.endsWith("1")){return colors[0]}
-                if(d.semester.endsWith("2")){return colors[1]}
-                if(d.semester.endsWith("3")){return colors[2]}
-            })
-            
-        rects.transition().duration(500)
-        .attr("y", d =>  yBar(d.number_of_students)) 
-        .attr("height",  function(d){return barChartHeight - yBar(d.number_of_students)})
-        .attr("width", xBar.bandwidth())
-
-        rects.on('mouseover', function(d){
-            d3.select(this).style("opacity", 0.7)
-            .style("stroke", function(e){
-                if(e.semester.endsWith("1")){return "orange"}
-                if(e.semester.endsWith("2")){return "red"}
-                if(e.semester.endsWith("3")){return "blue"}
-            })
-            .style("stroke-width", "3px")
-            tip.show(d)
+    barChartSvg.selectAll("rect").remove()
+    var rects = barChartSvg
+        .selectAll("rect")
+        .data(barSources)
+        .enter()
+        .append("rect")
+        .attr("class", "bar")
+        .attr("x", function(d){return xBar(d.semester)})
+        .attr("y", barChartHeight)
+        .attr("fill", function(d){
+            if(d.semester.endsWith("1")){return colors[0]}
+            if(d.semester.endsWith("2")){return colors[1]}
+            if(d.semester.endsWith("3")){return colors[2]}
         })
-        .on('mouseout', function(d){
-            d3.select(this).style("opacity", 1)
-            .style("stroke", "none")
-            tip.hide(d)
-        });
+        
+    rects.transition().duration(500)
+    .attr("y", d =>  yBar(d.number_of_students)) 
+    .attr("height",  function(d){return barChartHeight - yBar(d.number_of_students)})
+    .attr("width", xBar.bandwidth())
+
+    rects.on('mouseover', function(d){
+        d3.select(this).style("opacity", 0.7)
+        .style("stroke", function(e){
+            if(e.semester.endsWith("1")){return "orange"}
+            if(e.semester.endsWith("2")){return "red"}
+            if(e.semester.endsWith("3")){return "blue"}
+        })
+        .style("stroke-width", "3px")
+        tip.show(d)
+    })
+    .on('mouseout', function(d){
+        d3.select(this).style("opacity", 1)
+        .style("stroke", "none")
+        tip.hide(d)
+    });
     
 }
 
 
 
+function createSplit_1_BarChart(barChartSvg, barSources, splitFilter, xBar, yBar, colors, tip, barChartHeight){
+    barChartSvg.selectAll('rect')
+    .data(barSources)
+    .enter()
+    .append("rect")
+    .attr("class", "bar")
+    .attr("fill", function(d){
+        if(d.semester.endsWith("1")){return colors[0]}
+        else if(d.semester.endsWith("2")){return colors[1]}
+        else if(d.semester.endsWith("3")){return colors[2]}
+    })
+    .style("opacity", 1)
+    .attr("x", function(d){return xBar(d.semester)})
+    .attr("y", function(d){
+        if(splitFilter.splitting == "Gender"){return yBar(d.male)}
+        else if(splitFilter.splitting == "Fulltime / Part-time"){return yBar(d.full_time)}
+        else if(splitFilter.splitting == "Cycle"){return yBar(d.cycle_1)}
+        else if(splitFilter.splitting == "Legal status"){return yBar(d.canadien)}
+      
+    })
+    .attr("width", xBar.bandwidth())
+    .attr("height",  function(d){
+        if(splitFilter.splitting == "Gender"){return (barChartHeight - yBar(d.male))}
+        else if(splitFilter.splitting == "Fulltime / Part-time"){return (barChartHeight - yBar(d.full_time))}
+        else if(splitFilter.splitting == "Cycle"){return (barChartHeight -  yBar(d.cycle_1))}
+        else if(splitFilter.splitting == "Legal status"){return (barChartHeight -  yBar(d.canadien))}
+      
+    })
+    .on('mouseover', function(d){
+        d3.select(this).style("opacity", 0.7)
+        .style("stroke", function(e){
+            if(e.semester.endsWith("1")){return "orange"}
+            if(e.semester.endsWith("2")){return "red"}
+            if(e.semester.endsWith("3")){return "blue"}
+        })
+        .style("stroke-width", "3px")
+        tip.show(d)
+    })
+    .on('mouseout', function(d){
+        d3.select(this).style("opacity", 1)
+        .style("stroke", "none")
+        tip.hide(d)
+    })
+}
 
+
+function createSplit_2_BarChart(barChartSvg, barSources, splitFilter, xBar, yBar, colors, tip, barChartHeight){
+    barChartSvg.selectAll('rect')
+    .data(barSources)
+    .enter()
+    .append("rect")
+    .attr("class", "bar")
+    .attr("fill", function(d){
+        if(d.semester.endsWith("1")){return colors[0]}
+        if(d.semester.endsWith("2")){return colors[1]}
+        if(d.semester.endsWith("3")){return colors[2]}
+    })
+    .style("opacity", 1)
+    .attr("x", function(d){return xBar(d.semester)})
+    .attr("y", function(d){
+        if(splitFilter.splitting == "Gender"){return yBar(d.female)}
+        if(splitFilter.splitting == "Fulltime / Part-time"){return yBar(d.part_time)}
+        if(splitFilter.splitting == "Cycle"){return yBar(d.cycle_2)}
+        if(splitFilter.splitting == "Legal status"){return yBar(d.resident)}   
+    })
+    .attr("width", xBar.bandwidth())
+    .attr("height",  function(d){
+        if(splitFilter.splitting == "Gender"){return (barChartHeight - yBar(d.female))}
+        if(splitFilter.splitting == "Fulltime / Part-time"){return (barChartHeight - yBar(d.part_time))}
+        if(splitFilter.splitting == "Cycle"){return (barChartHeight - yBar(d.cycle_2))}
+        if(splitFilter.splitting == "Legal status"){return (barChartHeight - yBar(d.resident))}
+    })
+    .on('mouseover', function(d){
+        d3.select(this).style("opacity", 0.7)
+        .style("stroke", function(e){
+            if(e.semester.endsWith("1")){return "orange"}
+            if(e.semester.endsWith("2")){return "red"}
+            if(e.semester.endsWith("3")){return "blue"}
+        })
+        .style("stroke-width", "3px")
+        tip.show(d)
+    })
+    .on('mouseout', function(d){
+        d3.select(this).style("opacity", 1)
+        .style("stroke", "none")
+        tip.hide(d)
+    })
+}
+
+
+function createSplit_3_BarChart(barChartSvg, barSources, splitFilter, xBar, yBar, colors, tip, barChartHeight){
+    barChartSvg.selectAll('rect')
+    .data(barSources)
+    .enter()
+    .append("rect")
+    .attr("class", "bar")
+    .attr("fill", function(d){
+        if(d.semester.endsWith("1")){return colors[0]}
+        if(d.semester.endsWith("2")){return colors[1]}
+        if(d.semester.endsWith("3")){return colors[2]}
+    })
+    .style("opacity", 1)
+    .attr("x", function(d){return xBar(d.semester)})
+    .attr("y", function(d){
+        if(splitFilter.splitting == "Cycle"){return yBar(d.cycle_3)}
+        if(splitFilter.splitting == "Legal status"){return yBar(d.international)}   
+    })
+    .attr("width", xBar.bandwidth())
+    .attr("height",  function(d){
+        if(splitFilter.splitting == "Cycle"){return barChartHeight - yBar(d.cycle_3)}
+        if(splitFilter.splitting == "Legal status"){return barChartHeight - yBar(d.international)}
+    })
+    .on('mouseover', function(d){
+        d3.select(this).style("opacity", 0.7)
+        .style("stroke", function(e){
+            if(e.semester.endsWith("1")){return "orange"}
+            if(e.semester.endsWith("2")){return "red"}
+            if(e.semester.endsWith("3")){return "blue"}
+        })
+        .style("stroke-width", "3px")
+        tip.show(d)
+    })
+    .on('mouseout', function(d){
+        d3.select(this).style("opacity", 1)
+        .style("stroke", "none")
+        tip.hide(d)
+    })
+}
+
+// bar chart's tooltip text
 function barchartTip(d){
     var tipText = d.number_of_students
     return tipText
 }
 
+// when choosing a filter, the data presents in tooltips is different depending on the chosen filter
 function barchartSplit_1_Tip(d, filter){
     var tipText = ""
     if(filter.splitting == "Gender"){
@@ -341,141 +467,7 @@ function barchartSplit_3_Tip(d,filter){
 }
 
 
-
-
-function createSplit_1_BarChart(barChartSvg, barSources, splitFilter, xBar, yBar, colors, tip, barChartHeight){
-    barChartSvg.selectAll('rect')
-    .data(barSources)
-    .enter()
-    .append("rect")
-    .attr("class", "bar")
-    .attr("fill", function(d){
-        if(d.semester.endsWith("1")){return colors[0]}
-        else if(d.semester.endsWith("2")){return colors[1]}
-        else if(d.semester.endsWith("3")){return colors[2]}
-    })
-    .style("opacity", 1)
-    .attr("x", function(d){return xBar(d.semester)})
-    .attr("y", function(d){
-        if(splitFilter.splitting == "Gender"){return yBar(d.male)}
-        else if(splitFilter.splitting == "Fulltime / Part-time"){return yBar(d.full_time)}
-        else if(splitFilter.splitting == "Cycle"){return yBar(d.cycle_1)}
-        else if(splitFilter.splitting == "Legal status"){return yBar(d.canadien)}
-      
-    })
-    .attr("width", xBar.bandwidth())
-    .attr("height",  function(d){
-        if(splitFilter.splitting == "Gender"){return (barChartHeight - yBar(d.male))}
-        else if(splitFilter.splitting == "Fulltime / Part-time"){return (barChartHeight - yBar(d.full_time))}
-        else if(splitFilter.splitting == "Cycle"){return (barChartHeight -  yBar(d.cycle_1))}
-        else if(splitFilter.splitting == "Legal status"){return (barChartHeight -  yBar(d.canadien))}
-      
-    })
-    .on('mouseover', function(d){
-        d3.select(this).style("opacity", 0.7)
-        .style("stroke", function(e){
-            if(e.semester.endsWith("1")){return "orange"}
-            if(e.semester.endsWith("2")){return "red"}
-            if(e.semester.endsWith("3")){return "blue"}
-        })
-        .style("stroke-width", "3px")
-        tip.show(d)
-    })
-    .on('mouseout', function(d){
-        d3.select(this).style("opacity", 1)
-        .style("stroke", "none")
-        tip.hide(d)
-    })
-}
-
-
-
-function createSplit_2_BarChart(barChartSvg, barSources, splitFilter, xBar, yBar, colors, tip, barChartHeight){
-    barChartSvg.selectAll('rect')
-    .data(barSources)
-    .enter()
-    .append("rect")
-    .attr("class", "bar")
-    // .attr("transform", "translate(48 ,0)")
-    .attr("fill", function(d){
-        if(d.semester.endsWith("1")){return colors[0]}
-        if(d.semester.endsWith("2")){return colors[1]}
-        if(d.semester.endsWith("3")){return colors[2]}
-    })
-    .style("opacity", 1)
-    .attr("x", function(d){return xBar(d.semester)})
-    .attr("y", function(d){
-        if(splitFilter.splitting == "Gender"){return yBar(d.female)}
-        if(splitFilter.splitting == "Fulltime / Part-time"){return yBar(d.part_time)}
-        if(splitFilter.splitting == "Cycle"){return yBar(d.cycle_2)}
-        if(splitFilter.splitting == "Legal status"){return yBar(d.resident)}   
-    })
-    .attr("width", xBar.bandwidth())
-    .attr("height",  function(d){
-        if(splitFilter.splitting == "Gender"){return (barChartHeight - yBar(d.female))}
-        if(splitFilter.splitting == "Fulltime / Part-time"){return (barChartHeight - yBar(d.part_time))}
-        if(splitFilter.splitting == "Cycle"){return (barChartHeight - yBar(d.cycle_2))}
-        if(splitFilter.splitting == "Legal status"){return (barChartHeight - yBar(d.resident))}
-    })
-    .on('mouseover', function(d){
-        d3.select(this).style("opacity", 0.7)
-        .style("stroke", function(e){
-            if(e.semester.endsWith("1")){return "orange"}
-            if(e.semester.endsWith("2")){return "red"}
-            if(e.semester.endsWith("3")){return "blue"}
-        })
-        .style("stroke-width", "3px")
-        tip.show(d)
-    })
-    .on('mouseout', function(d){
-        d3.select(this).style("opacity", 1)
-        .style("stroke", "none")
-        tip.hide(d)
-    })
-}
-
-
-function createSplit_3_BarChart(barChartSvg, barSources, splitFilter, xBar, yBar, colors, tip, barChartHeight){
-    barChartSvg.selectAll('rect')
-    .data(barSources)
-    .enter()
-    .append("rect")
-    .attr("class", "bar")
-    // .attr("transform", "translate(48 ,0)")
-    .attr("fill", function(d){
-        if(d.semester.endsWith("1")){return colors[0]}
-        if(d.semester.endsWith("2")){return colors[1]}
-        if(d.semester.endsWith("3")){return colors[2]}
-    })
-    .style("opacity", 1)
-    .attr("x", function(d){return xBar(d.semester)})
-    .attr("y", function(d){
-        if(splitFilter.splitting == "Cycle"){return yBar(d.cycle_3)}
-        if(splitFilter.splitting == "Legal status"){return yBar(d.international)}   
-    })
-    .attr("width", xBar.bandwidth())
-    .attr("height",  function(d){
-        if(splitFilter.splitting == "Cycle"){return barChartHeight - yBar(d.cycle_3)}
-        if(splitFilter.splitting == "Legal status"){return barChartHeight - yBar(d.international)}
-    })
-    .on('mouseover', function(d){
-        d3.select(this).style("opacity", 0.7)
-        .style("stroke", function(e){
-            if(e.semester.endsWith("1")){return "orange"}
-            if(e.semester.endsWith("2")){return "red"}
-            if(e.semester.endsWith("3")){return "blue"}
-        })
-        .style("stroke-width", "3px")
-        tip.show(d)
-    })
-    .on('mouseout', function(d){
-        d3.select(this).style("opacity", 1)
-        .style("stroke", "none")
-        tip.hide(d)
-    })
-}
-
-
+// removing the splitted bar charts when no split filters selected
 function clearSplitBarChart(barSVG){
     barSVG.selectAll("rect").remove();
     barSVG.selectAll(".x-axis").remove();

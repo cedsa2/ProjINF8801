@@ -89,11 +89,7 @@
     var xAxisSplit3 = d3.axisBottom(xBarSplit3);
     var yAxisSplit3 = d3.axisLeft(yBarSplit3);
 
-    var xBubble = d3.scaleLinear().range([0, bubbleChartWidth]);
-    var yBubble = d3.scaleLinear().range([bubbleChartHeight, 0]);
 
-    var xBubbleProg = d3.scalePoint().range([0, bubbleChartWidth]);
-    var yBubbleProg = d3.scaleLinear().range([bubbleChartHeight, 0]);
 
     /***** Creation of the elements of the bar diagram *****/
     var barColors = ["#F8CC2E", "#F34C22" , "#34A9FD"]; //Fall(1), Winter(3), Summer(2)
@@ -182,11 +178,8 @@
             barDomainY_Split1(yBarSplit1, barSelectedFilter, barSources);
 
             barDomainX(xBarSplit2, barSources);
-
             barDomainX(xBarSplit3, barSources);
 
-            bubbleDomainX(xBubble, bubbleSources, diploma, inscription);
-            bubbleDomainY(yBubble, bubbleSources, diploma, inscription);
 
 
             /***** Creation of the bar chart *****/
@@ -198,12 +191,11 @@
 
             
             /***** Creation of the bubble chart *****/
-            createBubbleAxes(bubbleChartSvg, xBubble, yBubble, bubbleChartWidth, bubbleChartHeight);
             bubble_tip.html(function(d) {
                 return bubblechartTip.call(this, d, bubbleSources)
             });
             bubbleChartSvg.call(bubble_tip);
-            createBubbleChart(bubbleChartSvg, bubbleSources, bubbleSelectedFilter, diploma, inscription, xBubble, yBubble, bubble_tip)
+            createBubbleChart(bubbleChartSvg, bubbleSources, bubbleSelectedFilter, diploma, inscription, bubble_tip, bubbleChartHeight)
 
             /***** Creation of the bubble chart for program *****/
 
@@ -251,7 +243,6 @@
                         d3.select("#bar-svg-split2").transition().duration(300).style("height", barChartHeightSplit2 + barChartMarginSplit2.top + barChartMarginSplit2.bottom)
 
                         barDomainY_Split1(yBarSplit1,barSelectedFilter, barSourcesPlus);
-                        console.log(yBarSplit1.domain());
                         createBarAxes(barChartSvgSplit1, xAxisSplit1, yAxisSplit1, barChartWidthSplit1, barChartHeightSplit1, barSelectedFilter, 1, yBarSplit1);
                         tip1.html(function(d) {
                             return barchartSplit_1_Tip.call(this, d, barSelectedFilter);});
@@ -259,7 +250,7 @@
                         createSplit_1_BarChart(barChartSvgSplit1, barSourcesPlus,barSelectedFilter, xBarSplit1, yBarSplit1, barColors, tip1, barChartHeightSplit1);
 
 
-                        barDomainY_Split1(yBarSplit2,barSelectedFilter, barSourcesPlus, diploma, inscription);
+                        barDomainY_Split1(yBarSplit2,barSelectedFilter, barSourcesPlus);
                         createBarAxes(barChartSvgSplit2, xAxisSplit2, yAxisSplit2, barChartWidthSplit2, barChartHeightSplit2, barSelectedFilter, 2, yBarSplit2);
                         tip2.html(function(d) {
                            return barchartSplit_2_Tip.call(this, d, barSelectedFilter);});
@@ -277,8 +268,6 @@
                         d3.select("#bar-svg-split3").transition().duration(300).style("height", barChartHeightSplit3 + barChartMarginSplit3.top + barChartMarginSplit3.bottom)
 
                         barDomainY_Split1(yBarSplit1,barSelectedFilter, barSourcesPlus);
-                        console.log("domain:");
-                        console.log(yBarSplit1.domain());
                         createBarAxes(barChartSvgSplit1, xAxisSplit1, yAxisSplit1, barChartWidthSplit1, barChartHeightSplit1, barSelectedFilter, 1, yBarSplit1);
                         tip1.html(function(d) {
                             return barchartSplit_1_Tip.call(this, d, barSelectedFilter);});
@@ -338,7 +327,7 @@
                     return bubblechartTip.call(this, d, bubbleSources)
                 });
                 bubbleChartSvg.call(bubble_tip);
-                updateBubbleChart(diploma, inscription, bubbleSelectedFilter, bubbleChartSvg, bubbleSources, xBubble, yBubble, bubble_tip);
+                updateBubbleChart(diploma, inscription, bubbleSelectedFilter, bubbleChartSvg, bubbleSources, bubble_tip, bubbleChartHeight);
 
             });
         });

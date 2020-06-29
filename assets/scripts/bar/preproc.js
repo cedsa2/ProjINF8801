@@ -1,15 +1,11 @@
 "use strict";
 
+// Create a processed data to work with
 function createBarSources(diploma, inscription, barSelectedFilter){
 
     var chosen_degree = barSelectedFilter.degree;
     var chosen_program = barSelectedFilter.program;
     var chosen_mode = barSelectedFilter.mode;
-
-    //Semester needs to be modified
-    var chosen_semester = barSelectedFilter.semester;
-    var chosen_splitting = barSelectedFilter.splitting;
-    var chosen_stacking = barSelectedFilter.stacking;
 
     if (chosen_degree == "All") {
         if (chosen_mode == "Inscription") {
@@ -35,14 +31,13 @@ function createBarSources(diploma, inscription, barSelectedFilter){
 
     //fixing a mistake in the dataset 
     result_filter.forEach(d => (d.Grade == 'Maitrise professionn') ? d.Grade = 'Maitrise professionnelle': false)
-    //At this point, we have data for the selected degree and programm
 
     var groupBy = function(xs, key) {
         return xs.reduce(function(rv, x) {
           (rv[x[key]] = rv[x[key]] || []).push(x);
           return rv;
         }, {});
-      };
+    };
 
 
     if (chosen_mode == "Inscription") {
@@ -53,8 +48,6 @@ function createBarSources(diploma, inscription, barSelectedFilter){
     } 
     
     var result = grouped;
-    var arr = []
-
 
     if(chosen_mode == "Inscription"){
         for (var i in result){
@@ -133,7 +126,6 @@ function createBarSources(diploma, inscription, barSelectedFilter){
                 var gender = groupBy(result[i], "Sexe")
 
                 var x=0, y =0, z=0, a=0, b=0, c=0, k=0, n=0, m=0;
-                //gender - cycle
                 for(j in gender){
                     var temp = groupBy(gender[j],"Cycle")
                     if(j == "M"){
@@ -154,7 +146,6 @@ function createBarSources(diploma, inscription, barSelectedFilter){
                 result[i].female_cycle2 = b;
                 result[i].female_cycle3 = c;
 
-                //gender - full/part time
                 x=0, y =0, z=0, a=0, b=0, c=0, k=0, n=0, m=0;
                 for(j in gender){
                     var temp = groupBy(gender[j],"Regime_Etude")
@@ -172,7 +163,6 @@ function createBarSources(diploma, inscription, barSelectedFilter){
                 result[i].female_full = a;
                 result[i].female_part = b;
                 
-                //gender - legal status
                 x=0, y =0, z=0, a=0, b=0, c=0, k=0, n=0, m=0;
                 for(j in gender){
                     var temp = groupBy(gender[j],"Statut_legal")
@@ -194,10 +184,8 @@ function createBarSources(diploma, inscription, barSelectedFilter){
                 result[i].female_resident = b;
                 result[i].female_inter = c;
 
-
                 var cycle = groupBy(result[i], "Cycle")
                 x=0, y =0, z=0, a=0, b=0, c=0, k=0, n=0, m=0;
-                //cycle - legal status
                 for(j in cycle){
                     var temp = groupBy(cycle[j],"Statut_legal")
                     if(j == 1){
@@ -226,7 +214,6 @@ function createBarSources(diploma, inscription, barSelectedFilter){
                 result[i].cycle3_resident = n;
                 result[i].cycle3_inter = m;
                 
-                //cycle - regime etude
                 x=0, y =0, z=0, a=0, b=0, c=0, k=0, n=0, m=0;
                 for(j in cycle){
                     var temp = groupBy(cycle[j],"Regime_Etude")
@@ -250,7 +237,6 @@ function createBarSources(diploma, inscription, barSelectedFilter){
                 result[i].cycle3_full = k;
                 result[i].cycle3_part = n;
 
-
                 var regime_etude = groupBy(result[i], "Regime_Etude");
                 x=0, y =0, z=0, a=0, b=0, c=0, k=0, n=0, m=0;
                 for(j in regime_etude){
@@ -273,17 +259,15 @@ function createBarSources(diploma, inscription, barSelectedFilter){
                 result[i].resident_part = b;
                 result[i].inter_part = c;
 
-    }
+        }
     
-
-    console.log(result)
         var result2 = []
         for (var i in result) { 
             result2.push(result[i])
         }
         return result2 
     }
-     if(chosen_mode == "Diploma"){
+    if(chosen_mode == "Diploma"){
 
         for (var i in result){
             var students_per_semester = result[i].length;
@@ -327,7 +311,6 @@ function createBarSources(diploma, inscription, barSelectedFilter){
 
             for(i in result){
                 var gender = groupBy(result[i], "Sexe")
-    
                 var x=0, y =0, z=0, a=0, b=0, c=0, k=0, n=0, m=0;
                 for(j in gender){
                     var temp = groupBy(gender[j],"Cycle")
@@ -357,7 +340,7 @@ function createBarSources(diploma, inscription, barSelectedFilter){
     
             }
 
-     }
+        }
      var result2 = []
         for (var i in result) { 
             result2.push(result[i])
@@ -413,4 +396,3 @@ function barDomainY_Split1(yBar,filter, barSources){
     var max = d3.max(student_semester)
     yBar.domain([0, max])
 }
-

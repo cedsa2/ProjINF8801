@@ -57,16 +57,8 @@ function createBubbleSources(diploma, inscription, bubbleSelectedFilter){
 }
 
 
-function bubbleDomainX(xBubble, bubbleSources, diploma, inscription){
-
-}
-
-function bubbleDomainY(yBubble, bubbleSources, diploma, inscription){
-
-}
 
 function bubblechartTip(d, Grade) {
-    console.log(d)
     var total = 0
     Grade.forEach(element => {
         total += element.number_of_students

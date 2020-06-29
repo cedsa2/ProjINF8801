@@ -9,7 +9,7 @@
  * Retrieves the text associated with the tooltip.
  *
  * @param d               Data associated to the currently hovered circle.
- * @param formatNumber    Function that allows you to correctly format numbers.
+ * @param Grade           Grade const
  * @return {string}       The text to show in the tooltip.
  */
 function getToolTipText(d, Grade) {
